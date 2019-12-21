@@ -1,8 +1,8 @@
 package main
 
 import (
-	"gtools/Util/AstUtils"
-	"gtools/Util/FileUtils"
+	"github.com/chenxinghao/gtools/Util/AstUtils"
+	"github.com/chenxinghao/gtools/Util/FileUtils"
 	"strings"
 	"time"
 )

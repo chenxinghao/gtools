@@ -1,7 +1,7 @@
 package LogUtils
 
 import (
-	"gtools/Util/FileUtils"
+	"github.com/chenxinghao/gtools/Util/FileUtils"
 	"io"
 	"log"
 	"os"

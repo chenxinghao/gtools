@@ -2,7 +2,7 @@ package AstUtils
 
 import (
 	"fmt"
-	"gtools/Util/FileUtils"
+	"github.com/chenxinghao/gtools/Util/FileUtils"
 	"io/ioutil"
 	"os"
 	"path/filepath"

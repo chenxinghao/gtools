@@ -3,7 +3,7 @@ package LogUtils
 import (
 	"bytes"
 	"github.com/PuerkitoBio/goquery"
-	"gtools/Util/FileUtils"
+	"github.com/chenxinghao/gtools/Util/FileUtils"
 	"io/ioutil"
 )
 

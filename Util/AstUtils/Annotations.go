@@ -2,11 +2,11 @@ package AstUtils
 
 import (
 	"bytes"
+	"github.com/chenxinghao/gtools/Util/FileUtils"
 	"go/ast"
 	"go/format"
 	"go/parser"
 	"go/token"
-	"gtools/Util/FileUtils"
 	"io/ioutil"
 	"reflect"
 	"regexp"
