@@ -1,4 +1,4 @@
-package LogUtils
+package log
 
 import "log"
 

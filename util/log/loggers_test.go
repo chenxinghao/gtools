@@ -1,4 +1,4 @@
-package LogUtils
+package log
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ func TestLoggers_Save(t *testing.T) {
 	filepath := make([]string, 0)
 	LConfig.IsUseStdout = true
 	LConfig.Prefix = "[test]"
-	LConfig.LogFilePaths = append(filepath, "C:\\workspace\\GoProject\\gotools\\src\\gotools\\Util\\test.log")
+	LConfig.LogFilePaths = append(filepath, "C:\\workspace\\GoProject\\gotools\\src\\gotools\\util\\test.log")
 	LConfig.AutoIndentStr = ">>>>"
 	LConfig.Level = 10
 	LCP, err := Log.CreateLoggerContext(LConfig)
@@ -21,7 +21,7 @@ func TestLoggers_Save(t *testing.T) {
 
 	Log.Save("test", 0, "testing", LConfig)
 
-	Log.GetHtml("test", "C:\\workspace\\GoProject\\gotools\\src\\gotools\\Util\\LogUtils\\View\\base.html")
+	Log.GetHtml("test", "C:\\workspace\\GoProject\\gotools\\src\\gotools\\util\\log\\View\\base.html")
 
 	Log.Clear()
 }

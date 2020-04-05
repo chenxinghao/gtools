@@ -1,9 +1,9 @@
-package LogUtils
+package log
 
 import (
 	"bytes"
 	"github.com/PuerkitoBio/goquery"
-	"github.com/chenxinghao/gtools/Util/FileUtils"
+	"github.com/chenxinghao/gtools/util/file"
 	"io/ioutil"
 )
 

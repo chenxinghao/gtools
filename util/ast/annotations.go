@@ -1,8 +1,8 @@
-package AstUtils
+package ast
 
 import (
 	"bytes"
-	"github.com/chenxinghao/gtools/Util/FileUtils"
+	"github.com/chenxinghao/gtools/util/file"
 	"go/ast"
 	"go/format"
 	"go/parser"
@@ -85,7 +85,7 @@ func (annotations *Annotations) AnnotationsHandler(insertFuncName string, insert
 		}
 
 		var tempStmt []ast.Stmt
-		var AfterReturnFflag bool = false
+		var AfterReturnFlag = false
 		if statusList, ok := insertFuncMap[insertFuncName]; ok {
 			var prefixEs *ast.ExprStmt
 			var suffixEs *ast.DeferStmt
@@ -102,7 +102,7 @@ func (annotations *Annotations) AnnotationsHandler(insertFuncName string, insert
 					suffixEs = getInsertDeferStmt(insertFuncName+"Suffix", funcDecl.Name.Name)
 
 				case "AfterReturn":
-					AfterReturnFflag = true
+					AfterReturnFlag = true
 				default:
 				}
 			}
@@ -119,7 +119,7 @@ func (annotations *Annotations) AnnotationsHandler(insertFuncName string, insert
 			return
 		}
 
-		if AfterReturnFflag {
+		if AfterReturnFlag {
 			ast.Inspect(funcDecl.Body, func(node ast.Node) bool {
 				if node == nil {
 					return false
@@ -127,7 +127,7 @@ func (annotations *Annotations) AnnotationsHandler(insertFuncName string, insert
 				if bs, ok := node.(*ast.BlockStmt); ok {
 					for i, stmt := range bs.List {
 						if _, ok1 := stmt.(*ast.ReturnStmt); ok1 {
-							tempBs := []ast.Stmt{}
+							var tempBs []ast.Stmt
 							tempBs = append(tempBs, bs.List[0:i]...)
 							es := getInsertExprStmt(insertFuncName+"AfterReturn", funcDecl.Name.Name)
 							tempBs = append(tempBs, es)

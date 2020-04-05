@@ -1,8 +1,8 @@
-package AstUtils
+package ast
 
 import (
 	"fmt"
-	"github.com/chenxinghao/gtools/Util/FileUtils"
+	"github.com/chenxinghao/gtools/util/file"
 	"io/ioutil"
 	"os"
 	"path/filepath"

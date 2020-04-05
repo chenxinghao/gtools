@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/chenxinghao/gtools/Util/AstUtils"
-	"github.com/chenxinghao/gtools/Util/FileUtils"
+	"github.com/chenxinghao/gtools/util/ast"
+	"github.com/chenxinghao/gtools/util/file"
 	"strings"
 	"time"
 )
@@ -24,9 +24,9 @@ func main() {
 	tempStrs := strings.Split(dirPath, "/")
 	importStr := tempStrs[len(tempStrs)-1] + "/AnnotationsFunc"
 
-	AstUtils.CheckFunc(dirPath+"/AnnotationsFunc", insertFuncMap)
+	ast.CheckFunc(dirPath+"/AnnotationsFunc", insertFuncMap)
 
-	AstUtils.WalkAndHandler(dirPath, annoName, importStr, insertFuncName, insertFuncMap)
+	ast.WalkAndHandler(dirPath, annoName, importStr, insertFuncName, insertFuncMap)
 
 	time.Sleep(time.Duration(20) * time.Second)
 }

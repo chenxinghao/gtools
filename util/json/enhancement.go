@@ -1,4 +1,4 @@
-package JsonUtils
+package json
 
 import (
 	"container/list"

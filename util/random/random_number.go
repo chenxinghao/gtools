@@ -1,14 +1,14 @@
-package RandomUtils
+package random
 
 import (
 	cryptoRand "crypto/rand"
 	"math/big"
 )
 
-type RandomNumber struct {
+type Number struct {
 }
 
-func (this *RandomNumber) CryptoRandInt(min, max int) (int, error) {
+func (r *Number) CryptoRandInt(min, max int) (int, error) {
 	if min >= max {
 		return max, nil
 	}
