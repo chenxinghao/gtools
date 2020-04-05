@@ -15,7 +15,8 @@ import (
 
 type Annotations struct {
 	//文件地址
-	FilePath            string
+	FilePath string
+	//代码字节
 	CoreStr             []byte
 	ImportStr           string
 	FSet                *token.FileSet
@@ -26,6 +27,7 @@ type Annotations struct {
 }
 
 func (annotations *Annotations) InitAnnotations(filePath, importStr string) error {
+	//读取
 	var err error
 	code, err := ioutil.ReadFile(filePath)
 	if err != nil {

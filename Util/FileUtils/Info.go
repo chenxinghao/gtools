@@ -2,6 +2,7 @@ package FileUtils
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"runtime"
 )
@@ -10,7 +11,7 @@ type Info struct {
 }
 
 //第一个bool指返回的文件是否存在，第二个bool值返回路径是否是文件夹
-func (this *Info) IsFileExist(path string) (bool, bool) {
+func (i *Info) IsFileExist(path string) (bool, bool) {
 	info, err := os.Stat(path)
 	if err != nil {
 		return false, false
@@ -18,7 +19,7 @@ func (this *Info) IsFileExist(path string) (bool, bool) {
 	return true, info.IsDir()
 }
 
-func (this *Info) GetSystemDelim() string {
+func (i *Info) GetSystemDelim() string {
 	fmt.Println(runtime.GOOS)
 	systemName := runtime.GOOS
 	switch systemName {
@@ -30,4 +31,8 @@ func (this *Info) GetSystemDelim() string {
 		return "\n"
 	}
 
+}
+func (i *Info) IsEmptyDir(path string) bool {
+	dir, _ := ioutil.ReadDir(path)
+	return len(dir) == 0
 }

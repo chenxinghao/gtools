@@ -34,6 +34,7 @@ func CheckFuncWithRes(path string, insertFuncCountMap map[string]int) {
 
 }
 
+//检查插入方法存在
 func CheckFunc(path string, insertFuncMap map[string][]string) {
 	insertFuncCountMap := make(map[string]int)
 	var prefix int
