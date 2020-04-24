@@ -1,7 +1,8 @@
 package log
 
 type LogConfig struct {
-	LogFilePaths  []string
+	LogPath       []string
+	LogFileFormat string
 	Prefix        string
 	IsUseStdout   bool
 	AutoIndentStr string

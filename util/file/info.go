@@ -19,7 +19,7 @@ func (i *Info) IsFileExist(path string) (bool, bool) {
 	return true, info.IsDir()
 }
 
-func (i *Info) GetSystemDelim() string {
+func (i *Info) GetSystemNewlineChar() string {
 	fmt.Println(runtime.GOOS)
 	systemName := runtime.GOOS
 	switch systemName {
