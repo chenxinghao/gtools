@@ -68,15 +68,12 @@ func (f *FileIO) WriteFile(path string, content []byte, appendFlag bool) (int, e
 		fi, err = os.OpenFile(path, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0666)
 	}
 
-	if err != nil {
-		return 0, err
-	}
 	defer fi.Close()
 	writerLength, err := fi.Write(content)
 	if err != nil {
 		return writerLength, err
 	}
-	return writerLength, nil
+	return writerLength, err
 }
 
 func (f *FileIO) WriteFileHead(path string, content []byte) error {
@@ -98,14 +95,11 @@ func (f *FileIO) WriteFileHead(path string, content []byte) error {
 
 func (f *FileIO) UpdateFileByLine(path string, content []byte, lineNumber int) error {
 	var err error
-	var fi *os.File
 	var buf bytes.Buffer
 	byteSlice, err := f.ReadByteLines(path)
 	if err != nil {
 		return err
 	}
-
-	defer fi.Close()
 	if (0 < lineNumber) && (lineNumber < len(content)-1) {
 		byteSlice[lineNumber-1] = content
 	} else {
@@ -117,16 +111,16 @@ func (f *FileIO) UpdateFileByLine(path string, content []byte, lineNumber int) e
 		buf.WriteByte('\n')
 	}
 
-	fi, err = os.OpenFile(path, os.O_WRONLY|os.O_TRUNC, 0666)
+	fi, err := os.OpenFile(path, os.O_WRONLY|os.O_TRUNC, 0666)
 	if err != nil {
 		return err
 	}
+	defer fi.Close()
 	_, err = fi.Write(buf.Bytes())
 	if err != nil {
 		return err
 	}
 	return nil
-
 }
 
 func (f *FileIO) FindWithPrefix(content []byte, prefix, end string) string {
@@ -139,5 +133,5 @@ func (f *FileIO) FindWithPrefix(content []byte, prefix, end string) string {
 	}
 	contentSub = content[s:e]
 	e = bytes.IndexByte(contentSub, '\n')
-	return (string(contentSub[:e]))
+	return string(contentSub[:e])
 }
