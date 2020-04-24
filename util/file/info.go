@@ -32,6 +32,20 @@ func (i *Info) GetSystemNewlineChar() string {
 	}
 
 }
+
+func (i *Info) GetSystemFilePathDelimiter() string {
+	fmt.Println(runtime.GOOS)
+	systemName := runtime.GOOS
+	switch systemName {
+	case "windows":
+		return "\\"
+	case "linux":
+		return "/"
+	default:
+		return "/"
+	}
+
+}
 func (i *Info) IsEmptyDir(path string) bool {
 	dir, _ := ioutil.ReadDir(path)
 	return len(dir) == 0

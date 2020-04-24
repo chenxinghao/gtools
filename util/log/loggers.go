@@ -1,6 +1,7 @@
 package log
 
 import (
+	FileUtils "github.com/chenxinghao/gtools/util/file"
 	"github.com/robfig/cron"
 	"io"
 	"log"
@@ -18,9 +19,7 @@ type LoggerContextMap struct {
 
 type Loggers struct {
 	LogContext  LoggerContextMap
-	CLoseFiles  []*os.File
 	PermitLevel int
-	CornPtr     *cron.Cron
 }
 
 func init() {
@@ -37,12 +36,12 @@ func (l *Loggers) RegisterLogContext(name string, Context *LoggerContext) {
 		l.LogContext.m["Unkwown"] = Context
 	}
 
-	l.CornPtr = cron.New()
+	Context.CornPtr = cron.New()
 	spec := "0 0 0 1/1 * ?"
-	l.CornPtr.AddFunc(spec, func() {
+	Context.CornPtr.AddFunc(spec, func() {
 		l.refreshLoggerContext(name)
 	})
-	l.CornPtr.Start()
+	Context.CornPtr.Start()
 
 }
 func (l *Loggers) getLogContextByName(name string) *LoggerContext {
@@ -61,11 +60,12 @@ func (l *Loggers) CreateLoggerContext(config *LogConfig) (*LoggerContext, error)
 	writers := make([]io.Writer, 0)
 	var err error
 	var f *os.File
+	info := &FileUtils.Info{}
 	for _, logPath := range config.LogPath {
-		logPath += time.Now().Format(config.LogFileFormat)
+		logPath += info.GetSystemFilePathDelimiter() + time.Now().Format(config.LogFileFormat)
 		f, err = os.OpenFile(logPath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0777)
 		writers = append(writers, f)
-		l.CLoseFiles = append(l.CLoseFiles, f)
+		context.FilePtr = f
 	}
 	if config.IsUseStdout {
 		writers = append(writers, os.Stdout)
@@ -88,16 +88,21 @@ func (l *Loggers) Save(name string, indent int, contents ...interface{}) {
 }
 
 func (l *Loggers) refreshLoggerContext(name string) {
-	l.LogContext.Lock()
-	defer l.LogContext.Unlock()
 	if context, ok := l.LogContext.m[name]; ok {
 		logConfig := *context.LogConfig
 		LoggerContext, _ := l.CreateLoggerContext(&logConfig)
-		l.LogContext.m[name] = LoggerContext
+		l.RegisterLogContext(name, LoggerContext)
+		context.FilePtr.Close()
+		context.CornPtr.Stop()
 	}
 
 }
 
 func (l *Loggers) ClearAll() {
-	l.CornPtr.Stop()
+	l.LogContext.Lock()
+	defer l.LogContext.Unlock()
+	for _, v := range l.LogContext.m {
+		v.CornPtr.Stop()
+		v.FilePtr.Close()
+	}
 }

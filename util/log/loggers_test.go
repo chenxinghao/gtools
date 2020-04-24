@@ -3,6 +3,7 @@ package log
 import (
 	"fmt"
 	"testing"
+	"time"
 )
 
 func TestLoggers_Save(t *testing.T) {
@@ -20,6 +21,9 @@ func TestLoggers_Save(t *testing.T) {
 	}
 	Log.RegisterLogContext("test", LCP)
 
+	Log.Save("test", 0, "testing", LConfig)
+	time.Sleep(10 * time.Second)
+	Log.refreshLoggerContext("test")
 	Log.Save("test", 0, "testing", LConfig)
 	Log.ClearAll()
 
